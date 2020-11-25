@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+	<div id="app">
+		<div v-for="item in dataList">
+			{{ item.name }}
+		</div>
+		<table>
+			<thead>
+				<th>Name</th>
+				<th>Category</th>
+				<th>Stock</th>
+				<th></th>
+			</thead>
+			<tbody>
+				<tr v-for="item in dataList">
+					<td>{{ item.name }}</td>
+					<td class="label" :class="{
+						'label-danger': item.category == 'Electronic'
+					}">{{ item.category }}</td>
+					<td>{{ item.stock }}</td>
+					<td>
+						<button type="button" @click="lihatDetail(item)">LIHAT</button>
+						<a href="javascript:;" @click="lihatDetail(item)">DETAIL</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<button @click="tarekSis" type="button">TAREK SISS!</button>
+		<br>
+		<div>{{ detail.name }}</div>
+		<div>{{ detail.category }}</div>
+		<div>{{ detail.stock }}</div>
+	</div>
+	<script>
+		// http://api.left4code.com/
+		var app = new Vue({
+		  el: '#app',
+		  data: {
+		  	dataList: [],
+		  	detail:'',
+		  },
+		  methods:{
+		  	async tarekSis(){
+/*		  	// Convensional
+		  		let requestData = await axios.get('http://api.left4code.com')
+		  		console.log(requestData)
+*/
+		  		// Object DeStructure
+		  		let {data} = await axios.get('http://api.left4code.com')
+		  		console.log(data.data)
+		  		this.dataList = data.data
+		  	},
+		  	lihatDetail(item){
+		  		this.detail = item;
+		  	}
+		  }
+		});
+	</script>
+</body>
+</html>

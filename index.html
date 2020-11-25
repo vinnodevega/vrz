@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>VUE</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<!-- 
+		{{ message }} {{ pesan }}
+		<input type="text" v-model="message" />
+		<input type="text" v-model="pesan" /> 
+	  -->
+		Status Saat ini {{ status }}
+		<br>
+
+		<select name="" id="" v-model="status">
+			<option v-for="status in ddStatus" :value="status">{{ status }}</option>
+		</select>
+		<br>
+		<button @click="check">Simpen masss</button>
+
+		<h1>{{ total }}</h1>
+	</div>
+
+	<script>
+		var app = new Vue({
+		  el: '#app',
+		  data: {
+		  	ddStatus: ['PENDING','COMPLETE','ON PROGRESS'],
+		  	status: 'PENDING',
+		    message: 'Hello Vue!',
+		    pesan: 'Hej Vue!',
+
+		    tarif: 35000,
+		    berat: 25,
+		  },
+		  watch:{
+		  	// ketika element ganti value (on change)
+		  	status(){
+		  		alert(this.statusLangID)
+		  	}
+		  },
+		  computed:{
+		  	// Getter / Masking / Formatting
+		  	statusLangID(){
+		  		let a = 'status yang dipilih adalah ';
+		  		if (this.status == 'PENDING') {
+		  			a += 'MENUNGGU'
+		  		}else if (this.status == 'ON PROGRESS') {
+		  			a += 'SEDANG DIKERJAKAN'
+		  		}else{
+		  			a += 'SELESAI'
+		  		}
+		  		return a
+		  	},
+		  	total(){
+		  		return this.tarif * this.berat
+		  	}
+		  	
+		  },
+		  methods:{
+		  	// check: function(){
+		  	// 	alert(this.status)
+		  	// },
+		  	// Shorthand Lebih OKE MASSSS
+		  	check(){
+		  		alert(this.status)
+		  	},
+		  	generateNumber(){
+		  		// alert(this.status)
+		  		console.log('generated number is 4')
+		  	},
+
+		  },
+		  mounted(){
+		  	// Pasti di render ketika data selesai di load.
+		  	// sama kayaak $(document).ready(function(){});
+		  	let mySelf = this
+		  	// setTimeout(()=> {
+		  	// 	mySelf.status = 'COMPLETE'
+		  	// }, 1500);
+		  }
+		});
+	</script>
+</body>
+</html>
