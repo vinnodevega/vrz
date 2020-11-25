@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>VUE</title>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 	<div id="app">
@@ -20,9 +21,15 @@
 			<option v-for="status in ddStatus" :value="status">{{ status }}</option>
 		</select>
 		<br>
-		<button @click="check">Simpen masss</button>
+		<button @click="getDataOngkir">GET DATA ONGKIR</button>
 
-		<h1>{{ total }}</h1>
+		<!-- Method -->
+		<!-- <h1>{{ total() }}</h1>  -->
+
+		<!-- Computed -->
+		<!-- <h1>{{ total }}</h1> -->
+
+		<div v-for="zzz in fmOngkir">{{ zzz }}</div>
 	</div>
 
 	<script>
@@ -36,6 +43,7 @@
 
 		    tarif: 35000,
 		    berat: 25,
+		    dtOngkir: [],
 		  },
 		  watch:{
 		  	// ketika element ganti value (on change)
@@ -58,7 +66,12 @@
 		  	},
 		  	total(){
 		  		return this.tarif * this.berat
-		  	}
+		  	},
+		  	fmOngkir(){
+		  		return this.dtOngkir.map((dt)=> {
+		  			return dt.origin+" - "+dt.destination+" - "+dt.price+"/kg"
+		  		})
+		  	},
 		  	
 		  },
 		  methods:{
@@ -72,6 +85,18 @@
 		  	generateNumber(){
 		  		// alert(this.status)
 		  		console.log('generated number is 4')
+		  	},
+		  	formattingOngkir(dt){
+		  		return dt.origin+" - "+dt.destination+" - "+dt.price+"/kg"
+		  	},
+		  	// total(){
+		  	// 	return this.tarif * this.berat
+		  	// },
+		  	async getDataOngkir(){		  		
+		  		let {data:tes,headers:he} = await axios.get("http://api.alwaysup.co.id/ongkir")
+		  		this.dtOngkir = tes
+		  		// let alamat = await axios.get("http://api.alwaysup.co.id/alamat")
+		  		// let ongkir = await axios.get("http://api.alwaysup.co.id/ongkir")
 		  	},
 
 		  },
